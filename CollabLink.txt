@@ -1,0 +1,7 @@
+TrOCR Evaluation Notebook
+
+Google Colab Link:
+https://colab.research.google.com/drive/1mnM-Fd07JYq4dRMs9fMc4obTXDjq3tpB?usp=sharing
+
+This notebook contains the implementation of the TrOCR evaluation harness
+for OCR performance testing.

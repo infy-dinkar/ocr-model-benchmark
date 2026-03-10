@@ -1,0 +1,779 @@
+============================================================
+AI AGENT LANDSCAPE STUDY
+TOOLS: Anthropic Computer Use, Claude Cowork, Open Interpreter, n8n
+============================================================
+
+
+------------------------------------------------------------
+1. ANTHROPIC COMPUTER USE
+------------------------------------------------------------
+
+Purpose:
+AI agent that can control a computer like a human by observing the screen
+and performing actions such as clicking, typing, and navigating.
+
+------------------------------------------------------------
+Execution Flow
+------------------------------------------------------------
+
+User Goal
+   |
+   v
+LLM (Claude)
+   |
+   v
+Take Screenshot of Screen
+   |
+   v
+Send Screenshot to Claude Cloud API
+   |
+   v
+Vision + Language Model analyzes UI elements
+   |
+   v
+Model decides next action
+   |
+   v
+Return action instruction
+   |
+   v
+Local executor performs action
+(mouse move / click / keyboard input)
+   |
+   v
+Screen updates
+   |
+   v
+New screenshot captured
+   |
+   v
+Loop continues
+
+
+------------------------------------------------------------
+Internal Working
+------------------------------------------------------------
+
+Computer Screen
+   |
+   v
+Screenshot Capture
+   |
+   v
+Image Encoding (Vision Model)
+   |
+   v
+LLM Context Understanding
+   |
+   v
+UI Element Detection
+
+Example representation:
+
+Button: "Save"
+Coordinates: (x=420,y=210)
+
+   |
+   v
+Action Generation
+
+Example:
+
+mouse.move(420,210)
+mouse.click()
+
+   |
+   v
+Executor executes action
+
+
+------------------------------------------------------------
+Why It Cannot Be Used In Hospitals
+------------------------------------------------------------
+
+Problem 1: Screenshot is sent to external cloud
+
+Hospital Screen Example:
+
+Patient Name: Ravi Kumar
+Age: 54
+Diagnosis: Diabetes
+Phone: 9876543210
+
+This contains PHI (Protected Health Information).
+
+If screenshot is sent to cloud:
+
+Hospital System
+   |
+   v
+Screenshot
+   |
+   v
+Anthropic Cloud
+
+Sensitive data leaves hospital environment.
+
+Problem 2: Compliance Issues
+
+Healthcare regulations require:
+
+- Data residency
+- Secure environments
+- Controlled access
+
+Cloud-based screenshot processing violates these rules.
+
+
+------------------------------------------------------------
+2. CLAUDE COWORK
+------------------------------------------------------------
+
+Purpose:
+AI assistant that automates desktop tasks for users.
+
+Examples:
+- Summarize documents
+- Organize files
+- Extract information
+- Automating workflows
+
+
+------------------------------------------------------------
+Execution Flow
+------------------------------------------------------------
+
+User Instruction
+   |
+   v
+Claude Cowork Interface
+   |
+   v
+Files / Data collected from user device
+   |
+   v
+Data sent to Claude Cloud LLM
+   |
+   v
+LLM processes request
+   |
+   v
+Generates automation actions
+   |
+   v
+Results returned to desktop
+
+
+------------------------------------------------------------
+Internal Working
+------------------------------------------------------------
+
+User Device
+   |
+   v
+Local File Access
+   |
+   v
+File Content Extraction
+   |
+   v
+Send File Content to Claude API
+   |
+   v
+LLM Processing
+   |
+   v
+Return instructions
+   |
+   v
+Execute automation locally
+
+
+Example Flow
+
+PDF File
+   |
+   v
+Upload to LLM
+   |
+   v
+LLM reads text
+   |
+   v
+Generates summary
+
+
+------------------------------------------------------------
+Why It Cannot Be Used In Hospitals
+------------------------------------------------------------
+
+Problem 1: Medical files sent to cloud
+
+Example hospital file:
+
+Discharge Summary
+Lab Report
+Prescription
+
+These contain:
+
+- PHI (Protected Health Information)
+- PII (Personally Identifiable Information)
+
+Sending these to cloud creates privacy risks.
+
+Problem 2: Regulatory restrictions
+
+Healthcare data systems often require:
+
+- On-premise processing
+- Encrypted storage
+- Restricted data movement
+
+
+------------------------------------------------------------
+3. OPEN INTERPRETER
+------------------------------------------------------------
+
+Purpose:
+Open-source AI agent capable of executing code and controlling a computer.
+
+Acts like:
+
+ChatGPT + Code Execution + System Control
+
+
+------------------------------------------------------------
+Execution Flow
+------------------------------------------------------------
+
+User Prompt
+   |
+   v
+LLM (OpenAI / Local Model)
+   |
+   v
+LLM generates code
+   |
+   v
+Code sent to interpreter
+   |
+   v
+Interpreter executes code
+   |
+   v
+Output returned to LLM
+   |
+   v
+LLM decides next step
+   |
+   v
+Loop continues
+
+
+------------------------------------------------------------
+Internal Working
+------------------------------------------------------------
+
+Prompt Processing
+
+Example:
+
+User Prompt:
+"Plot diabetes patient data"
+
+LLM generates:
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+Interpreter executes code.
+
+Architecture
+
+User Prompt
+   |
+   v
+LLM reasoning
+   |
+   v
+Code generation
+   |
+   v
+Code execution
+   |
+   v
+Result observation
+   |
+   v
+Next reasoning step
+
+
+------------------------------------------------------------
+Why It Cannot Be Used In Hospitals
+------------------------------------------------------------
+
+Problem 1: Uses external APIs
+
+Many Open Interpreter setups rely on:
+
+OpenAI API
+Claude API
+
+Data flow:
+
+Local data
+   |
+   v
+External LLM API
+
+Sensitive patient data may leave system.
+
+Problem 2: Not designed for compliance
+
+Open-source tools usually lack:
+
+- Healthcare certification
+- Security auditing
+- Access control mechanisms
+
+
+------------------------------------------------------------
+4. n8n WORKFLOW AUTOMATION
+------------------------------------------------------------
+
+Purpose:
+Visual workflow automation platform connecting different services.
+
+Example:
+
+Automate business processes across applications.
+
+
+------------------------------------------------------------
+Execution Flow
+------------------------------------------------------------
+
+Trigger Event
+   |
+   v
+Workflow Engine
+   |
+   v
+Node Execution
+   |
+   v
+Next Node
+   |
+   v
+Final Output
+
+
+Example Workflow
+
+New Patient Form Uploaded
+   |
+   v
+OCR Node
+   |
+   v
+Extract Text
+   |
+   v
+Database Storage
+   |
+   v
+Notification Sent
+
+
+------------------------------------------------------------
+Internal Working
+------------------------------------------------------------
+
+Event Driven Architecture
+
+Trigger
+   |
+   v
+Workflow Engine
+   |
+   v
+Sequential Node Execution
+
+
+Example Pipeline
+
+Google Drive Upload
+   |
+   v
+HTTP Request Node
+   |
+   v
+OCR Service
+   |
+   v
+Text Processing
+   |
+   v
+Database Insert
+
+
+------------------------------------------------------------
+Why It Cannot Be Used Directly In Hospitals
+------------------------------------------------------------
+
+Problem 1: External integrations
+
+Many workflows rely on:
+
+Cloud APIs
+External services
+
+Example:
+
+Hospital Document
+   |
+   v
+Cloud OCR
+   |
+   v
+Cloud AI
+
+Sensitive data leaves hospital environment.
+
+
+Problem 2: Not built for clinical compliance
+
+Healthcare systems require:
+
+- PHI protection
+- Audit logs
+- Access controls
+
+
+------------------------------------------------------------
+CORE PROBLEM THESE TOOLS SHARE
+------------------------------------------------------------
+
+Most AI tools use this architecture:
+
+Local Data
+   |
+   v
+Cloud API
+   |
+   v
+LLM Processing
+   |
+   v
+Response
+
+This means:
+
+Sensitive hospital data is transmitted outside the hospital network.
+
+
+------------------------------------------------------------
+LARYAA 
+------------------------------------------------------------
+
+Goal:
+Create an AI execution layer that operates locally inside hospitals.
+
+Architecture direction:
+
+Hospital System
+   |
+   v
+Local AI Models
+(OCR + NER + Document AI)
+   |
+   v
+Workflow Engine
+   |
+   v
+Automation
+
+No external data transfer.
+
+
+Key principle:
+
+ZERO TRUST ARCHITECTURE
+
+Meaning:
+
+- No implicit trust
+- Strict data control
+- Local processing of sensitive data
+
+------------------------------------------------------------------------------
+******************************************************************************
+-------------------------------------------------------------------------------
+
+TrOCR OCR Evaluation Pipeline Explanation
+------------------------------------------
+
+STEP 1 — Create Images
+Code:
+from PIL import Image, ImageDraw
+
+def create_text_image(text, filename):
+    img = Image.new("RGB", (400, 100), color=(255, 255, 255))
+    draw = ImageDraw.Draw(img)
+    draw.text((10, 40), text, fill=(0, 0, 0))
+    img.save(filename)
+
+create_text_image("Patient: Ravi Kumar", "img1.png")
+create_text_image("Age: 54", "img2.png")
+create_text_image("Doctor: Mehta", "img3.png")
+
+Explanation:
+Synthetic images generate ki ja rahi hain jisme text likha hua hai.
+Ye OCR model test karne ke liye input dataset hai.
+
+Internally:
+Blank image create hoti hai
+↓
+Image par text draw hota hai
+↓
+Image disk par save hoti hai
+
+
+STEP 2 — Load Images
+Code:
+image = PILImage.open(img_name).convert("RGB")
+
+Explanation:
+Image file ko memory me load kiya jata hai.
+
+Internally:
+Image file read hoti hai
+↓
+Binary data decode hota hai
+↓
+Pixel matrix create hoti hai
+
+Pixel structure example:
+400 x 100 x 3
+3 = RGB channels
+
+
+STEP 3 — Preprocess Image
+Code:
+pixel_values = processor(images=image, return_tensors="pt").pixel_values
+
+Explanation:
+Image ko model ke input format (tensor) me convert kiya jata hai.
+
+Internally:
+Image
+↓
+Resize
+↓
+Normalize pixel values
+↓
+Convert to tensor
+
+Tensor shape example:
+[1, 3, 224, 224]
+
+
+STEP 4 — Run OCR Model
+Code:
+generated_ids = model.generate(pixel_values)
+
+Explanation:
+TrOCR model image ko process karta hai aur text tokens predict karta hai.
+
+Internally:
+Image tensor
+↓
+Vision Transformer Encoder
+↓
+Image features
+↓
+Transformer Text Decoder
+↓
+Token prediction
+
+Example token output:
+[1023, 456, 78]
+
+
+STEP 5 — Decode Tokens
+Code:
+pred_text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+Explanation:
+Model ke predicted tokens ko readable text me convert kiya jata hai.
+
+Internally:
+Token IDs
+↓
+Vocabulary lookup
+↓
+Characters
+↓
+Words
+↓
+Final text output
+
+Example:
+"Patient Ravi Kumar"
+
+
+STEP 6 — Compare With Ground Truth
+Code:
+for img_name, gt_text in ground_truth.items():
+
+ground_truth = {
+ "img1.png": "Patient Ravi Kumar",
+ "img2.png": "Age 54",
+ "img3.png": "Doctor Mehta"
+}
+
+Explanation:
+Prediction ko correct answer ke saath compare kiya jata hai.
+
+
+STEP 7 — Calculate Accuracy
+Code:
+similarity = SequenceMatcher(None, pred_text.lower(), gt_text.lower()).ratio()
+accuracies.append(similarity)
+
+Explanation:
+Prediction aur ground truth ke beech similarity calculate hoti hai.
+
+Internally:
+Longest Common Subsequence algorithm use hota hai.
+
+Example:
+Prediction: Patient Ravi Kumr
+Ground Truth: Patient Ravi Kumar
+
+Accuracy:
+0.96
+
+
+STEP 8 — Measure Latency
+Code:
+start = time.perf_counter()
+
+end = time.perf_counter()
+latency = (end - start) * 1000
+latencies.append(latency)
+
+Explanation:
+Model ko prediction karne me kitna time laga measure kiya jata hai.
+
+Example:
+Latency = 48 ms
+
+
+STEP 9 — Measure RAM Usage
+Code:
+tracemalloc.start()
+
+current, peak = tracemalloc.get_traced_memory()
+tracemalloc.stop()
+
+peak_ram_mb = peak / (1024 * 1024)
+
+Explanation:
+Model inference ke time maximum memory usage track hoti hai.
+
+Example:
+Peak RAM = 920 MB
+
+
+STEP 10 — Compute Statistics
+Code:
+p50_latency = float(np.percentile(latencies, 50))
+p95_latency = float(np.percentile(latencies, 95))
+mean_accuracy = float(np.mean(accuracies))
+
+Explanation:
+Overall model performance calculate kiya jata hai.
+
+Metrics:
+p50 latency = median latency
+p95 latency = worst case latency
+mean accuracy = average accuracy
+
+
+STEP 11 — Generate JSON Report
+Code:
+report = {
+ "model": "trocr",
+ "latency_p50_ms": p50_latency,
+ "latency_p95_ms": p95_latency,
+ "peak_ram_mb": peak_ram_mb,
+ "text_accuracy": mean_accuracy
+}
+
+with open("evaluation_report.json", "w") as f:
+ json.dump(report, f, indent=2)
+
+Explanation:
+Evaluation results JSON format me save kiye jate hain.
+
+Example output:
+
+{
+ "model": "trocr",
+ "latency_p50_ms": 52,
+ "latency_p95_ms": 75,
+ "peak_ram_mb": 920,
+ "text_accuracy": 0.91
+}
+
+
+FINAL COMPLETE FLOW
+
+Create Images
+(create_text_image)
+
+↓
+Load Images
+(PILImage.open)
+
+↓
+Preprocess Image
+(processor())
+
+↓
+Run OCR Model
+(model.generate)
+
+↓
+Decode Tokens
+(batch_decode)
+
+↓
+Get Predicted Text
+
+↓
+Compare With Ground Truth
+(ground_truth dictionary)
+
+↓
+Calculate Accuracy
+(SequenceMatcher)
+
+↓
+Measure Latency
+(time.perf_counter)
+
+↓
+Measure RAM
+(tracemalloc)
+
+↓
+Compute Statistics
+(numpy percentile + mean)
+
+↓
+Generate JSON Report
+(json.dump)
+
