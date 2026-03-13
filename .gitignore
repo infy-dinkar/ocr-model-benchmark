@@ -18,8 +18,7 @@ huggingface/
 *.safetensors
 *.bin
 
-# Output files
-evaluation_report.json
+
 
 # OS files
 .DS_Store
