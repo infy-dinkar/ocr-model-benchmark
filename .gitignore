@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment folders
+laryaa/
+env/
+venv/
+.venv/
+
+# HuggingFace cache
+.cache/
+huggingface/
+
+# Model downloads
+*.safetensors
+*.bin
+
+# Output files
+evaluation_report.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Logs
+*.log

@@ -2,79 +2,164 @@
 
 ## Overview
 
-This repository contains the **Week 1 deliverable** for evaluating the OCR performance of the `microsoft/trocr-base-printed` model.
+This repository contains a standalone evaluation harness for benchmarking the **TrOCR OCR model** (`microsoft/trocr-base-printed`) on document images.
 
-The goal of this task is to run OCR on sample images and evaluate the model using the following metrics:
+The goal of this script is to evaluate OCR inference performance under controlled conditions and produce a structured report containing latency, memory usage, and text accuracy.
 
-* **Latency (p50, p95)**
-* **Peak RAM usage**
-* **Text accuracy**
+This script is designed to run **locally on offline machines**, which is important for environments such as hospital systems where internet access may be restricted.
 
 ---
 
-## Google Colab Notebook
+# Evaluation Pipeline
 
-The full implementation and experiments can be run using the following Google Colab notebook:
+The evaluation process follows the pipeline below:
 
-**Colab Link:**
-https://colab.research.google.com/drive/1mnM-Fd07JYq4dRMs9fMc4obTXDjq3tpB?usp=sharing
-
----
-
-## Pipeline
-
-Image
-↓
-TrOCR OCR Model
-↓
-Predicted Text
-↓
-Comparison with Ground Truth
-↓
-Evaluation Metrics
-
----
-
-## Metrics Evaluated
-
-* **Latency** – time taken for OCR inference
-* **Peak RAM usage** – memory consumed during inference
-* **Text Accuracy** – similarity between predicted text and ground truth
+```
+Input Images
+      ↓
+Image Preprocessing
+      ↓
+TrOCR Model Inference
+      ↓
+Predicted Text Generation
+      ↓
+Comparison With Ground Truth
+      ↓
+Metric Computation
+      ↓
+Evaluation Report (JSON)
+```
 
 ---
 
-## Sample Dataset
+# Metrics Measured
 
-Example test images used for evaluation:
+The evaluation harness computes the following metrics:
 
-* `img1.png` → Patient Ravi Kumar
-* `img2.png` → Age 54
-* `img3.png` → Doctor Mehta
+### Latency
+
+Measures the time taken for a single OCR inference.
+
+* **p50 latency** → median inference time
+* **p95 latency** → worst-case latency
+
+### Peak RAM Usage
+
+Tracks maximum memory usage during evaluation using Python's `tracemalloc`.
+
+### Text Accuracy
+
+Accuracy is computed using string similarity between predicted text and ground truth.
 
 ---
 
-## Output
+# Repository Structure
 
-The evaluation script generates a JSON report:
+```
+trocr-evaluation-harness
+│
+├── evaluate_trocr.py        # Standalone evaluation script
+├── requirements.txt         # Python dependencies
+├── images                   # Sample test images
+│   ├── image1.png
+│   ├── image2.png
+│   └── image3.png
+│
+├── evaluation_report.json   # Generated after script execution
+└── README.md
+```
+
+---
+
+# Installation
+
+Create a Python environment and install dependencies.
+
+```
+pip install -r requirements.txt
+```
+
+Dependencies:
+
+* transformers
+* torch
+* pillow
+* numpy
+
+---
+
+# Running the Evaluation
+
+Run the script by passing the image directory as input.
+
+```
+python evaluate_trocr.py images
+```
+
+The script will:
+
+1. Load the TrOCR model
+2. Run OCR inference on all images
+3. Compare predictions with ground truth
+4. Compute evaluation metrics
+5. Generate a report
+
+---
+
+# Example Output
+
+After execution, the script generates:
 
 ```
 evaluation_report.json
 ```
 
-Example output:
+Example:
 
-```json
+```
 {
   "model": "trocr",
-  "latency_p50_ms": 52,
-  "latency_p95_ms": 75,
-  "peak_ram_mb": 920,
-  "text_accuracy": 0.91
+  "latency_p50_ms": 3900,
+  "latency_p95_ms": 5357,
+  "peak_ram_mb": 17.6,
+  "text_accuracy": 0.23
 }
 ```
 
 ---
 
-## Objective of the Evaluation
+# Model Used
 
-The purpose of this evaluation harness is to measure the **performance characteristics of the OCR model**, which will later help compare different document processing models within the Laryaa system.
+The evaluation uses the following pretrained model:
+
+```
+microsoft/trocr-base-printed
+```
+
+Model documentation:
+
+https://huggingface.co/microsoft/trocr-base-printed
+
+TrOCR is a Transformer-based OCR system that combines a Vision Transformer encoder with a text decoder.
+
+---
+
+# Purpose of This Repository
+
+This evaluation harness is intended to:
+
+* Benchmark OCR inference performance
+* Measure system resource consumption
+* Provide reproducible OCR evaluation results
+* Enable comparison with other document understanding models
+
+This script can be extended to evaluate other models such as:
+
+* LayoutLMv3
+* Donut
+* PaddleOCR
+* Tesseract
+
+---
+
+
