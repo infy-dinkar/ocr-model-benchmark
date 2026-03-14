@@ -1,0 +1,8 @@
+{
+  "model": "trocr",
+  "hardware": "CPU-only",
+  "latency_p50_ms": 3154.3139000423253,
+  "latency_p95_ms": 3770.1158599636983,
+  "peak_ram_mb": 1613.08984375,
+  "text_accuracy": 0.7640211640211639
+}

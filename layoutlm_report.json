@@ -1,0 +1,7 @@
+{
+  "model": "layoutlmv3",
+  "hardware": "CPU-only",
+  "latency_p50_ms": 331.6425000084564,
+  "latency_p95_ms": 349.149119987851,
+  "peak_ram_mb": 756.01171875
+}
