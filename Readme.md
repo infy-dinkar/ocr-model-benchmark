@@ -1,20 +1,3 @@
-Samajh gaya bhai 👍
-Tum chahte ho ki **VS Code me paste karo → automatically proper headings, spacing, code blocks render ho → aur GitHub pe bhi clean dikhe**.
-
-Iske liye **README.md format perfect hota hai**.
-Neeche jo de raha hoon wo **proper GitHub-ready Markdown** hai.
-
-Bas:
-
-1. VS Code me `README.md` open karo
-2. Sab delete karo
-3. Neeche wala paste karo
-4. Save
-
-GitHub pe **perfect arrange ho jayega**.
-
----
-
 # Document AI Evaluation Harness
 
 ## Overview
